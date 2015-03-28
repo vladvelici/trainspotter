@@ -3,7 +3,10 @@ var exec = require('child_process').exec;
 var child;
 
 var arrivals = function(CRS, MAX, callback){
-    exec('php lib/arrivals.php '+CRS+' '+MAX, function(error, stdout, stderr){
+    var res = CRS.match(/^[A-Z]{3}$/);
+    if (res === null) { callback("Nope.", null); return; }
+    CRS = res[0];
+    exec('php ./fetchers/lib/arrivals.php '+CRS+' '+parseInt(MAX), function(error, stdout, stderr){
         if(error != null){ 
             return callback(error, null);
         }
@@ -13,8 +16,11 @@ var arrivals = function(CRS, MAX, callback){
 };
 
 var departures = function(CRS, MAX, callback){
-    exec('php lib/departures.php '+CRS+' '+MAX, function(error, stdout, stderr){
-        if(error != null){ 
+    var res = CRS.match(/^[A-Z]{3}$/);
+    if (res === null) { callback("Nope.", null); return; }
+    CRS = res[0];
+    exec('php ./fetchers/lib/departures.php '+CRS+' '+parseInt(MAX), function(error, stdout, stderr){
+        if(error){ 
             return callback(error, null);
         }
         
@@ -23,7 +29,10 @@ var departures = function(CRS, MAX, callback){
 };
 
 var arrivals_departures = function(CRS, MAX, callback){
-    exec('php lib/arrival_departure.php '+CRS+' '+MAX, function(error, stdout, stderr){
+    var res = CRS.match(/^[A-Z]{3}$/);
+    if (res === null) { callback("Nope.", null); return; }
+    CRS = res[0];
+    exec('php ./fetchers/lib/arrival_departure.php '+CRS+' '+parseInt(MAX), function(error, stdout, stderr){
         if(error != null){ 
             return callback(error, null);
         }

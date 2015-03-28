@@ -1,6 +1,8 @@
 <?php
   require('config.php');
   require("OpenLDBWS.php");
+
+
   if(isset($_GET['crs'])){
     $crs = $_GET['crs'];
   } else {

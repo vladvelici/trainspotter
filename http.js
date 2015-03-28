@@ -51,8 +51,8 @@ MongoClient.connect(config.mongo.url, function(err, db) {
     app.get('/arrivals/:CRS/:MAX', function (req, res){
         fetcher_board.arrivals(req.params.CRS, req.params.MAX, function(error, data){
             if(error){
-                res.send(JSON.stringify({err:"arrivals error", details: err.toString() }));
-                returnl
+                res.send(JSON.stringify({err:"arrivals error", details: error.toString() }));
+                return;
             }
 
             res.send(JSON.stringify(data));
@@ -62,8 +62,8 @@ MongoClient.connect(config.mongo.url, function(err, db) {
     app.get('/departures/:CRS/:MAX', function (req, res){
         fetcher_board.departures(req.params.CRS, req.params.MAX, function(error, data){
             if(error){
-                res.send(JSON.stringify({err:"departures error", details: err.toString() }));
-                returnl
+                res.send(JSON.stringify({err:"departures error", details: error.toString() }));
+                return;
             }
 
             res.send(JSON.stringify(data));
@@ -73,8 +73,8 @@ MongoClient.connect(config.mongo.url, function(err, db) {
     app.get('/arrivals_departures/:CRS/:MAX', function (req, res){
         fetcher_board.arrivals_departures(req.params.CRS, req.params.MAX, function(error, data){
             if(error){
-                res.send(JSON.stringify({err:"arrivals departures error", details: err.toString() }));
-                returnl
+                res.send(JSON.stringify({err:"arrivals departures error", details: error.toString() }));
+                return;
             }
 
             res.send(JSON.stringify(data));
