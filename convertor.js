@@ -2,10 +2,10 @@
 var stanox_to_tiploc = require('./data/stanox_to_tiploc.json');
 var tiploc_to_coords = require('./data/tiploc_to_coords.json');
 
-
 module.exports = {
     "stanox_to_latlng": function (stanox) {
         var os = tiploc_to_coords[stanox_to_tiploc[stanox]];
+        if (os == undefined) { return undefined; }
         os = new OsGridRef(os[0], os[1]);
         var OSGB36 = OsGridRef.osGridToLatLong(os);
         var WGS84 = CoordTransform.convertOSGB36toWGS84(OSGB36);
