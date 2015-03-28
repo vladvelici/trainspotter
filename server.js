@@ -1,5 +1,7 @@
 var Stomp = require('stomp-client');
 var fetch_train = require('./fetchers/train.js');
+var fetch_boards = require('./fetchers/boards.js');
+
 var config = require('./config');
 var MongoClient = require('mongodb').MongoClient;
 

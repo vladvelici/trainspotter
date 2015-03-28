@@ -2,7 +2,7 @@ var MongoClient = require('mongodb').MongoClient;
 var express = require('express');
 var app = express();
 var config = require('./config');
-
+var fetcher_board = require('./fetchers/boards.js');
 
 
 MongoClient.connect(config.mongo.url, function(err, db) {
@@ -32,14 +32,13 @@ MongoClient.connect(config.mongo.url, function(err, db) {
                 "$geometry": {type: "Point", coordinates: [lng, lat]},
                 "$maxDistance": range
             }
-        }}, function(err, res) {
+        }}).toArray(function(err, objs) {
             if (err) {
-                res.send(JSON.stringify({err:"Database error.", details:err.toString()));
+                res.send(JSON.stringify({err:"Database error.", details: err.toString()}));
                 return;
             }
-            res.send(JSON.stringify(res));
+            res.send(JSON.stringify(objs));
         });
-
     });
 
     var server = app.listen(3000, function () {
@@ -49,6 +48,38 @@ MongoClient.connect(config.mongo.url, function(err, db) {
         console.log('Example app listening at http://%s:%s', host, port)
     });
 
+    app.get('/arrivals/:CRS/:MAX', function (req, res){
+        fetcher_board.arrivals(req.params.CRS, req.params.MAX, function(error, data){
+            if(error){
+                res.send(JSON.stringify({err:"arrivals error", details: err.toString() }));
+                returnl
+            }
+
+            res.send(JSON.stringify(data));
+        });
+    });
+
+    app.get('/departures/:CRS/:MAX', function (req, res){
+        fetcher_board.departures(req.params.CRS, req.params.MAX, function(error, data){
+            if(error){
+                res.send(JSON.stringify({err:"departures error", details: err.toString() }));
+                returnl
+            }
+
+            res.send(JSON.stringify(data));
+        });
+    });
+
+    app.get('/arrivals_departures/:CRS/:MAX', function (req, res){
+        fetcher_board.arrivals_departures(req.params.CRS, req.params.MAX, function(error, data){
+            if(error){
+                res.send(JSON.stringify({err:"arrivals departures error", details: err.toString() }));
+                returnl
+            }
+
+            res.send(JSON.stringify(data));
+        });
+    });
 
 });
 
