@@ -6,8 +6,9 @@ var movement_topic = "/topic/TRAIN_MVT_ALL_TOC";
 
 var tr = {
 
-    init: function(client) {
+    init: function(client, mongo) {
         client.subscribe(movement_topic, tr.process);
+        tr.mongo = mongo;
     },
 
     disconnected: function() {

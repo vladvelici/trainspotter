@@ -5,6 +5,9 @@ var config = {
         "user": "d3user",
         "pass": "d3password",
         "qname": ""
+    },
+    "mongo": {
+        "url": "mongodb://localhost:27017/trainspotter"
     }
 }
 
