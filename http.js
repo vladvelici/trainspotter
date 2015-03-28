@@ -31,12 +31,13 @@ MongoClient.connect(config.mongo.url, function(err, db) {
             "$near": {
                 "$geometry": {type: "Point", coordinates: [lng, lat]},
                 "$maxDistance": range
+            }
         }}, function(err, res) {
             if (err) {
                 res.send(JSON.stringify({err:"Database error.", details:err.toString()));
                 return;
             }
-            res.send();
+            res.send(JSON.stringify(res));
         });
 
     });
