@@ -33,7 +33,7 @@
     var socket = io();
       document.getElementById("btn").addEventListener("click", function(e) {
         var url = document.getElementById("url").value;
-        var notif = {text: text, ev: url};
+        var notif = {ev: url};
         console.log("sending ", notif);
         socket.emit("broadcast_notif", notif);
       });
@@ -56,7 +56,7 @@
         socket.emit("broadcast_custom_notif", text.value, url.value);
       });
 
-      socket.on("notify", function(text, url) {
+      socket.on("notif", function(text, url) {
         console.log("Received notification", text, url);
       });
     </script>
