@@ -16,11 +16,10 @@ MongoClient.connect(config.mongo.url, function(err, db) {
     client.connect(function(sid) {
         console.log("Stomp connected. Session ID: ", sid);
         fetch_train.init(client, db);
+
         client.on("disconnect", function() {
             fetch_train.disconnected();
         });
     });
 
 });
-
-

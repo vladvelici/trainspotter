@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <title>Notification sender</title>
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body>
+    Text: <input type="text" name="text" id="text" value="" />
+    URL: <select name="url" id='url'>
+      <option>notify_nomad</option>
+      <option>notify_survey</option>
+    </select>
+    <input type="button" value="send notification" id='btn'>
+
+    <script>
+    var socket = io();
+      document.getElementById("btn").addEventListener("click", function(e) {
+        var text = document.getElementById("text").value;
+        var url = document.getElementById("url").value;
+        var notif = {text: text, ev: url};
+        console.log("sending ", notif);
+        socket.emit("broadcast_notif", notif);
+      });
+
+      socket.on("notify_nomad", function(n) {
+        console.log("Logging recv notif: ", n);
+      });
+
+    </script>
+  </body>
+</html>

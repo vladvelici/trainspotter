@@ -9,10 +9,10 @@ MongoClient.connect(config.mongo.url, function(err, db) {
     if (err) {
         throw "Mongo connection error error: " + err;
     }
-    console.log("Connected to mongo."); 
+    console.log("Connected to mongo.");
 
     app.use(function (req, res, next) {
-        console.log(Date.now().toString(), req.method, req.url);
+        console.log(new Date().toISOString(), req.method, req.url);
         res.setHeader('Content-Type', 'application/json');
         next();
     });
@@ -38,6 +38,7 @@ MongoClient.connect(config.mongo.url, function(err, db) {
                 return;
             }
             res.send(JSON.stringify(objs));
+            res.end();
         });
     });
 
@@ -57,6 +58,81 @@ MongoClient.connect(config.mongo.url, function(err, db) {
 
             res.send(JSON.stringify(data));
         });
+    });
+
+    app.get('/my_journey', function(req, res) {
+        var lat = parseFloat(req.query.lat);
+        var lng = parseFloat(req.query.lng);
+
+        var journey = {
+            stations: [{
+                "name": "York",
+                "time": "18:59",
+                "service": "Virgin Trains East Coast",
+                "location" : {
+                           "lat" : 53.95798,
+                           "lng" : -1.09319
+                        }
+            },
+            {
+                "name": "London Kings Cross",
+                "time": "22:55",
+                "service": "Tube",
+                "location" : {
+                           "lat" : 51.53088,
+                           "lng" : -0.1229
+                        }
+            },
+            {
+                "name": "London Waterloo",
+                "time": "21:54",
+                "service": "South West Trains",
+                "location" : {
+                           "lat" : 51.5033,
+                           "lng" : -0.11475
+                        }
+              },
+              {"time": "22:03",
+              "name": "Clapham Junction",
+              "service": "South West Trains",
+              },
+              {"time": "22:28",
+              "name": "Woking (Main)",
+              "service": "South West Trains",
+              "location" : {
+                           "lat" : 51.316774,
+                           "lng" : -0.5600349
+                        }},
+              {"time": "22:48",
+              "name": "Basingstoke",
+              "service": "South West Trains"},
+              {"time": "22:58",
+              "name": "Micheldever",
+              "service": "South West Trains"},
+              {"time": "23:08",
+              "name": "Winchester",
+              "service": "South West Trains",  "location" : {
+                           "lat" : 51.0672,
+                           "lng" : -1.31969
+                        }},
+              {"time": "23:22",
+              "name": "Eastleigh",
+              "service": "South West Trains"},
+              {"time": "23:27",
+              "name": "Southampton Airport Parkway",
+              "service": "South West Trains"},
+              {"time": "23:34",
+              "name": "Southampton Central",
+              "service": "",
+              "location" : {
+                           "lat" : 50.9077164,
+                           "lng" : -1.413564
+                        }}],
+            "total_length":"4h 35m"
+        };
+
+        res.send(JSON.stringify(journey));
+        res.end();
     });
 
     app.get('/departures/:CRS/:MAX', function (req, res){
@@ -82,4 +158,3 @@ MongoClient.connect(config.mongo.url, function(err, db) {
     });
 
 });
-

@@ -1,0 +1,170 @@
+<html>
+  <head>
+    <title>Bandwidth test for Nomad Digital</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style media="screen">
+      body, html {
+        margin:0px;
+      }
+      header {
+        text-align:center;height:70px;padding:30px;
+        background-color: #ee3333;
+      }
+      .btn {
+      	-moz-box-shadow:inset 0px 34px 0px -15px #b54b3a;
+      	-webkit-box-shadow:inset 0px 34px 0px -15px #b54b3a;
+      	box-shadow:inset 0px 34px 0px -15px #b54b3a;
+      	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #a73f2d), color-stop(1, #b34332));
+      	background:-moz-linear-gradient(top, #a73f2d 5%, #b34332 100%);
+      	background:-webkit-linear-gradient(top, #a73f2d 5%, #b34332 100%);
+      	background:-o-linear-gradient(top, #a73f2d 5%, #b34332 100%);
+      	background:-ms-linear-gradient(top, #a73f2d 5%, #b34332 100%);
+      	background:linear-gradient(to bottom, #a73f2d 5%, #b34332 100%);
+      	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#a73f2d', endColorstr='#b34332',GradientType=0);
+      	background-color:#a73f2d;
+      	border:1px solid #241d13;
+      	display:inline-block;
+      	cursor:pointer;
+      	color:#ffffff;
+      	font-family:Verdana;
+      	font-size:22px;
+      	padding:12px 32px;
+      	text-decoration:none;
+      	text-shadow:0px -1px 0px #7a2a1d;
+      }
+      .btn:hover {
+      	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #b34332), color-stop(1, #a73f2d));
+      	background:-moz-linear-gradient(top, #b34332 5%, #a73f2d 100%);
+      	background:-webkit-linear-gradient(top, #b34332 5%, #a73f2d 100%);
+      	background:-o-linear-gradient(top, #b34332 5%, #a73f2d 100%);
+      	background:-ms-linear-gradient(top, #b34332 5%, #a73f2d 100%);
+      	background:linear-gradient(to bottom, #b34332 5%, #a73f2d 100%);
+      	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#b34332', endColorstr='#a73f2d',GradientType=0);
+      	background-color:#b34332;
+      }
+      .btn:active {
+      	position:relative;
+      	top:1px;
+      }
+      footer {
+        margin-top: 100px;
+        text-align:center;
+      }
+      p {
+        margin: 40px auto;
+        font-size:24px;
+        text-align:center;
+      }
+      article {
+        margin: 0px 20px;
+        line-height:1.7em;
+      }
+      #loading {
+        background: #333;
+        color: #eee;
+        text-align:center;
+        padding:20px;
+        display:none;
+      }
+      #final { display:none; }
+
+      #loading img {
+    -webkit-animation-name: spin;
+    -webkit-animation-duration: 2000ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: ease-in-out;
+    -moz-animation-name: spin;
+    -moz-animation-duration: 2000ms;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: ease-in-out;
+    -ms-animation-name: spin;
+    -ms-animation-duration: 2000ms;
+    -ms-animation-iteration-count: infinite;
+    -ms-animation-timing-function: ease-in-out;
+
+    animation-name: spin;
+    animation-duration: 2000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}
+@-ms-keyframes spin {
+    from { -ms-transform: rotate(0deg); }
+    to { -ms-transform: rotate(360deg); }
+}
+@-moz-keyframes spin {
+    from { -moz-transform: rotate(0deg); }
+    to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
+}
+    </style>
+  </head>
+  <body>
+    <header>
+      <img src="http://nomad-digital.com/wp-content/themes/nomaddigital/img/logo.png" alt="Nomad Digital" />
+    </header>
+    <article>
+      <p>Perform a quick bandwidth test on your mobile data in exchange of free WiFi for the rest of your
+      journey.</p>
+      <div style="text-align:center;" id='buttondiv'>
+      <button id='btn' class='btn'>Start test</button>
+    </div>
+    </article>
+    <div id="loading">
+      <img src='/nomad_logo.png' alt="loading..." />
+      <p>
+        The data you generate helps us make the WiFi better...
+      </p>
+      <p id='prgbar'></p>
+    </div>
+    <div id="final">
+      <p>
+        <span id="final_result"></span> Thank you for your time! Here is your WiFi code:
+      </p>
+      <p style='text-align:center;'>
+        <strong>J5JK865MX</strong>
+      </p>
+      <p>
+        The test took <span id='final_time'></span>.
+      </p>
+    </div>
+    <footer>:)</footer>
+
+    <script type='text/javascript'>
+      document.getElementById('btn').addEventListener("click", function(e) {
+        console.log("clicked.");
+        document.getElementById('buttondiv').style.display = "none";
+        document.getElementById('loading').style.display = "block";
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() { console.log("something"); }
+        xhr.addEventListener("progress", function(prg) {
+          document.getElementById("prgbar").innerHTML = "Loaded " + prg.loaded;
+        }, false);
+        var prev;
+        var done = function(msg) {
+          return function() {
+            document.getElementById('final_result').innerHTML = msg;
+            document.getElementById('loading').style.display="none";
+            document.getElementById("final").style.display="block";
+            document.getElementById("final_time").innerHTML = (prev - new Date()) + "ms";
+          };
+        }
+        xhr.addEventListener("load", done("Transfer complete."), false);
+        xhr.addEventListener("error", done("Transfer failed."), false);
+        prev = new Date();
+        xhr.open("GET","/bigfile",true);
+
+      });
+    </script>
+  </body>
+</html>

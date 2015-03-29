@@ -30,7 +30,7 @@ var tr = {
             } else if (h.msg_type == "0003") {
                 tr.movement(r);
             } else if (h.msg_type == "0007"){
-                console.log("something else");
+                console.log("something else", h);
             }
         }
     },
@@ -58,19 +58,23 @@ var tr = {
 
 function fixtrain(train) {
     var latlng = convertor.stanox_to_latlng(train.loc_stanox);
+
     if (latlng === undefined) { 
         return undefined;
     }
+
     train.current_location = {type: "Point", coordinates: [latlng.lng, latlng.lat]};
     train.train_terminated = train.train_terminated == "true";
 
-    if (train.actual_timestamp.length > 0) {
+    if (train.actual_timestamp != "") {
         train.actual_timestamp = new Date(parseInt(train.actual_timestamp));
     }
 
-    if (train.gbtt_timestamp.length > 0) {
-        train.planned_timestamp = new Date(parseInt(train.gbtt_timestamp));
-    } else if (train.planned_timestamp.length > 0) {
+    if (train.gbtt_timestamp.length != "") {
+        train.gbtt_timestamp = new Date(parseInt(train.gbtt_timestamp));
+    }
+
+    if (train.planned_timestamp != "") {
         train.planned_timestamp = new Date(parseInt(train.planned_timestamp));
     }
 

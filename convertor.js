@@ -10,6 +10,14 @@ module.exports = {
         var OSGB36 = OsGridRef.osGridToLatLong(os);
         var WGS84 = CoordTransform.convertOSGB36toWGS84(OSGB36);
         return {lat: WGS84._lat, lng: WGS84._lon};
+    },
+
+    "tiploc_to_latlng": function(tiploc) {
+        var os = tiploc_to_coords[tiploc];
+        os = new OsGridRef(os[0], os[1]);
+        var OSGB36 = OsGridRef.osGridToLatLong(os);
+        var WGS84 = CoordTransform.convertOSGB36toWGS84(OSGB36);
+        return {lat: WGS84._lat, lng: WGS84._lon};
     }
 };
 
