@@ -4,17 +4,34 @@
     <script src="/socket.io/socket.io.js"></script>
   </head>
   <body>
-    Text: <input type="text" name="text" id="text" value="" />
+    <div>
+      <p>
+        Predefined notifications (hardcoded s#!7)
+      </p>
     URL: <select name="url" id='url'>
       <option>notify_nomad</option>
       <option>notify_survey</option>
     </select>
     <input type="button" value="send notification" id='btn'>
 
+  </div>
+
+  <div class="">
+    <p>
+      Custom notifications.
+    </p>
+
+    <input type="text" id="c_text" value="" placeholder="Notification Text" />
+    <input type="URL" id="c_url" value="" placeholder="Notification URI" />
+
+    <input type="button" id="c_btn" value="Send custom notification">
+
+  </div>
+
+
     <script>
     var socket = io();
       document.getElementById("btn").addEventListener("click", function(e) {
-        var text = document.getElementById("text").value;
         var url = document.getElementById("url").value;
         var notif = {text: text, ev: url};
         console.log("sending ", notif);
@@ -22,9 +39,27 @@
       });
 
       socket.on("notify_nomad", function(n) {
-        console.log("Logging recv notif: ", n);
+        console.log("Received NOMAD notif: ", n);
+      });
+      socket.on("notify_survey", function(n) {
+        console.log("Received SURVEY notif: ", n);
       });
 
+      // custom notification stuff
+
+      document.getElementById("c_btn").addEventListener("click", function(e) {
+        var url = document.getElementById("c_url");
+        var text = document.getElementById("c_text");
+
+        console.log("Sending custom notification", text.value, url.value);
+
+        socket.emit("broadcast_custom_notif", text.value, url.value);
+      });
+
+      socket.on("notify", function(text, url) {
+        console.log("Received notification", text, url);
+      });
     </script>
+
   </body>
 </html>

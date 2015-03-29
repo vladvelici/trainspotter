@@ -145,24 +145,26 @@
         console.log("clicked.");
         document.getElementById('buttondiv').style.display = "none";
         document.getElementById('loading').style.display = "block";
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function() { console.log("something"); }
-        xhr.addEventListener("progress", function(prg) {
-          document.getElementById("prgbar").innerHTML = "Loaded " + prg.loaded;
-        }, false);
-        var prev;
-        var done = function(msg) {
-          return function() {
-            document.getElementById('final_result').innerHTML = msg;
+//        var xhr = new XMLHttpRequest();
+//        xhr.onreadystatechange = function() { console.log("something"); }
+//        xhr.addEventListener("progress", function(prg) {
+//          document.getElementById("prgbar").innerHTML = "Loaded " + prg.loaded;
+//        }, false);
+//        var prev;
+//        var done = function(msg) {
+//          return function() {
+//            document.getElementById('final_result').innerHTML = msg;
+        setTimeout(function() {
             document.getElementById('loading').style.display="none";
             document.getElementById("final").style.display="block";
-            document.getElementById("final_time").innerHTML = (prev - new Date()) + "ms";
-          };
-        }
-        xhr.addEventListener("load", done("Transfer complete."), false);
-        xhr.addEventListener("error", done("Transfer failed."), false);
-        prev = new Date();
-        xhr.open("GET","/bigfile",true);
+          }, 5300);
+//          document.getElementById("final_time").innerHTML = (prev - new Date()) + "ms";
+//          };
+//        }
+//        xhr.addEventListener("load", done("Transfer complete."), false);
+//        xhr.addEventListener("error", done("Transfer failed."), false);
+//        prev = new Date();
+//        xhr.open("GET","/bigfile",true);
 
       });
     </script>

@@ -61,8 +61,8 @@ MongoClient.connect(config.mongo.url, function(err, db) {
     });
 
     app.get('/my_journey', function(req, res) {
-        var lat = parseFloat(req.query.lat);
-        var lng = parseFloat(req.query.lng);
+        // var lat = parseFloat(req.query.lat);
+        // var lng = parseFloat(req.query.lng);
 
         var journey = {
             stations: [{
@@ -98,11 +98,7 @@ MongoClient.connect(config.mongo.url, function(err, db) {
               },
               {"time": "22:28",
               "name": "Woking (Main)",
-              "service": "South West Trains",
-              "location" : {
-                           "lat" : 51.316774,
-                           "lng" : -0.5600349
-                        }},
+              "service": "South West Trains"},
               {"time": "22:48",
               "name": "Basingstoke",
               "service": "South West Trains"},
@@ -111,10 +107,7 @@ MongoClient.connect(config.mongo.url, function(err, db) {
               "service": "South West Trains"},
               {"time": "23:08",
               "name": "Winchester",
-              "service": "South West Trains",  "location" : {
-                           "lat" : 51.0672,
-                           "lng" : -1.31969
-                        }},
+              "service": "South West Trains"},
               {"time": "23:22",
               "name": "Eastleigh",
               "service": "South West Trains"},
