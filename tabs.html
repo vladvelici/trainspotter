@@ -1,0 +1,66 @@
+<html>
+  <head>
+    <title></title>
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+  </head>
+  <body>
+    <script type="text/javascript">
+
+      function make_td(parent, content) {
+        if (content === undefined) {
+          content = "-";
+        }
+
+        var td = document.createElement("td");
+        parent.appendChild(td);
+        var textNode = document.createTextNode(content);
+        td.appendChild(textNode);
+      }
+
+      function render_station(parent, data) {
+        console.log("rendering station");
+        var table = document.createElement("table");
+        table.width = "100%";
+        var tr = document.createElement("tr");
+        tr.style.fontWeight = "bold";
+        make_td(tr, "Time");
+        make_td(tr, "Destination");
+        make_td(tr, "Platform");
+        make_td(tr, "Status");
+        table.appendChild(tr);
+
+        data = data["GetStationBoardResult"]["trainServices"]["service"];
+
+        for (var i in data) {
+          var train = data[i];
+          var tr = document.createElement("tr");
+          make_td(tr, train["std"]);
+          make_td(tr, train["destination"]["location"]["locationName"]);
+          make_td(tr, train["platform"]);
+          make_td(tr, train["etd"]);
+          table.appendChild(tr);
+        }
+
+        parent.appendChild(table);
+      }
+
+      function getAndRender(parent, station, limit) {
+        $.ajax({url:"/departures/" + station + "/" + limit}).done(function(data) {
+          console.log("Got data", data);
+          render_station(parent, data);
+        });
+      }
+
+      window.addEventListener("load", function(e) {
+        console.log('boom');
+        getAndRender(document.getElementById("m"), "KGX", 10);
+      });
+
+    </script>
+
+    <div id="m">
+
+    </div>
+
+  </body>
+</html>

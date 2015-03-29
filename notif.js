@@ -41,7 +41,7 @@ io.on('connection', function(socket){
 
   socket.on("broadcast_custom_notif", function(text, url) {
       console.log("Sending custom notif", text, url);
-      socket.broadcast.emit("notif", text, url);
+      socket.broadcast.emit("notify", text, url);
   });
 
 });

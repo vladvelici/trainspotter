@@ -13,7 +13,12 @@ MongoClient.connect(config.mongo.url, function(err, db) {
 
     app.use(function (req, res, next) {
         console.log(new Date().toISOString(), req.method, req.url);
-        res.setHeader('Content-Type', 'application/json');
+        if (req.url != "/departures_tabs") {
+          console.log("setting header...");
+          res.setHeader('Content-Type', 'application/json');
+        } else {
+          console.log("not setting header.");
+        }
         next();
     });
 
@@ -58,6 +63,10 @@ MongoClient.connect(config.mongo.url, function(err, db) {
 
             res.send(JSON.stringify(data));
         });
+    });
+
+    app.get("/departures_tabs", function(req, res) {
+      res.sendFile(__dirname+"/tabs.html");
     });
 
     app.get('/my_journey', function(req, res) {
